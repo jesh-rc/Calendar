@@ -1,0 +1,616 @@
+:root{
+    --primary-clr: #408EC6;
+
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #408EC6;
+}
+.container {
+    position: relative;
+    width: 98%;
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 5px;
+    color: #fff;
+    display: flex;
+    border-radius: 10px;
+    background-color: #1e2761;
+}
+.left{
+    width: 70%;
+    padding: 20px;
+}
+.calendar{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: #878895;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.calendar .month {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.calendar .month .prev,
+.calendar .month .next{
+    cursor: pointer;
+}
+.calendar .month .prev:hover,
+.calendar .month .next:hover {
+    color: var(--primary-clr);
+}
+.calendar .weekdays{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.calendar .weekdays div {
+    width: 14.28%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.calendar .days{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 18px;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.calendar .days .day {
+    width: 14.28%;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--primary-clr);
+    border: 2px solid #e2e2e2;
+    transition: background-color 0.2s, color 0.2s; /* Smooth transition for hover effect */
+}
+.calendar .day:not(.prev-date , .next-date):hover {
+    color: #fff;
+    background-color: var(--primary-clr);
+}
+.calendar .days .prev-date,
+.calendar .days .next-date {
+    color: #b3b3b3;
+}
+.calendar .days .active {
+    position: relative;
+    font-size: 2rem;
+    color: #fff;
+    background-color: var(--primary-clr);
+}
+.calendar .days .active::before {
+    content:"";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 10px 2px var(--primary-clr);
+}
+.calendar .days .today {
+    position: relative;
+    color: var(--primary-clr);
+    font-weight: bold;
+}
+.calendar .days .today.active {
+    color: #fff; /* Text color for today when clicked */
+    background-color: var(--primary-clr); /* Background color for today when clicked */
+}
+
+.calendar .days .today::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 75%;
+    border: 2px solid var(--primary-clr); /* Blue circle around today */
+    border-radius: 50%;
+    pointer-events: none; /* Ensures hover and click events pass through to the date */
+}
+/* Add a circle around the current day using a pseudo-element */
+.calendar .days .today.active::before {
+    border-color: #fff; /* White circle when clicked */
+}
+/*Change the border color of today's circle*/
+.calendar .days .today:hover::before {
+    border-color: #fff;
+}
+
+.calendar .days .event {
+    position: relative;
+}
+
+/* Add a small event indicator (dot) for days with events */
+.calendar .days .day.event::before {
+    content: "";
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ff7f50; /* Coral color for event dot */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Add a hover effect to the day with event */
+.calendar .days .day.event:hover::after {
+    background-color: #ff4500; /* Darker coral color on hover */
+}
+
+
+.calendar .active.event {
+    padding-bottom: 10px;
+}
+.calendar .goto-today{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    color: var(--primary-clr);
+}
+.calendar .goto-today .goto {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid var(--primary-clr);
+}
+.calendar .goto-today .goto input{
+    width: 100%;
+    height: 30px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0 20px;
+    color: var(--primary-clr);
+    border-radius: 5px;
+}
+.calendar .goto-today button {
+    padding: 10px 20px; /* Increase padding for a more balanced look */
+    border: 1px solid var(--primary-clr);
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--primary-clr);
+    transition: background-color 0.2s, color 0.2s; /* Smooth transition */
+}
+
+/* Hover effect */
+.calendar .goto-today button:hover {
+    background-color: var(--primary-clr); /* Make the entire button change color */
+    color: #fff; /* Change text color */
+}
+
+.calendar .goto-today .goto button{
+    border: none;
+    border-left: 1px solid var(--primary-clr);
+    border-radius: 0;
+}
+
+.right {
+    width: 29%;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #7A2048;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Ensures elements stack from the top */
+    position: relative;
+}
+
+.today-date {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Aligns content to the left */
+    justify-content: flex-start;
+    text-align: left; /* Ensures text inside is aligned to the left */
+}
+
+.today-date .event-day {
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-bottom: 5px;
+}
+
+.today-date .event-date {
+    padding-top: 5px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: left; /* Ensures event date is aligned to the left */
+}
+
+.events {
+    width: 100%;
+    height: 100%;
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.events .event {
+    position: relative;
+    width: 100%; /* Make the width full to avoid offset */
+    min-height: 70px;
+    display: flex;
+
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0 20px; /* Remove padding-left */
+    color: #fff;
+    background: linear-gradient(90deg, #7A2048, #581734, #00000059, #7A2048);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s; /* Smooth transition */
+}
+
+.events .event:nth-child(even) {
+    background: transparent;
+}
+
+.events .event:hover{
+    background: linear-gradient(90deg, #581734, #00000059);
+    border-radius: 5px;
+}
+
+.events .event .title {
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.events .event .title .event-title {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-left: 5px; /* Adjust to remove excess spacing on the left */
+}
+
+.events .event .title i {
+    color: #fff;
+    font-size: 0.5rem;
+}
+
+.events .event:hover .title i,
+.events .event:hover .event-time{
+    color: #878895;
+}
+
+.event-time {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-left: 15px;
+    pointer-events: none;
+}
+/* Ensure the checkmark is initially hidden, targeting only events */
+.events .event::after {
+    content: "✔";
+    padding-right: 10px;
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjust position for better placement */
+    font-size: 1.5rem;
+    display: none; /* Hide initially */
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6; /* Slightly visible */
+    color: #878895;
+    transform: translateY(-50%);
+}
+
+/* Display the checkmark only on hover over the event */
+.events .event:hover::after {
+    display: block; /* Show the checkmark on hover */
+    color: #fff; /* Change color on hover for better visibility */
+}
+
+
+.events .no-event {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color:#fff
+}
+
+.add-event-wrapper{
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    width: 90%;
+    max-height: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #fff;
+    transform: translateX(-50%);
+    transition: max-height 0.5s;
+}
+.add-event-wrapper.active {
+    max-height: 300px;
+}
+
+.add-event-header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    color: #373c4f;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.add-event-header .close {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.add-event-header .close:hover {
+    color:#7A2048;
+}
+.add-event-header .title {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.add-event-body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 20px;
+}
+.add-event-body .add-event-input{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+.add-event-body .add-event-input input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border-bottom: 1px solid #f5f5f5;
+    padding: 0 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #373c4f;
+}
+
+.add-event-body .add-event-input input::placeholder {
+    color: #a5a5a5;
+}
+
+.add-event-body .add-event-input input:focus {
+    color:#581734;
+}
+
+.add-event-body .add-event-input input:focus::placeholder {
+    color: #581734;
+}
+
+.add-event-footer {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.add-event-btn {
+    height: 40px;
+    font-size: 1rem;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    color: #fff;
+    background-color:#581734;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #581734;
+}
+.add-event-btn:hover{
+    color:#581734;
+    background-color: transparent;
+}
+
+.add-event{
+    position: absolute;
+    bottom: 35px;
+    right: 32px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color:#fff;
+    border: 2px solid #fff;
+    opacity: 0.5;
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+}
+.add-event:hover{
+    opacity: 1;
+}
+.add-event i {
+    pointer-events: none;
+}
+
+
+/* Animation styles */
+.fade-out-left {
+    animation: fadeOutLeft 0.3s forwards;
+}
+
+.fade-in-left {
+    animation: fadeInLeft 0.3s forwards;
+}
+
+.fade-out-right {
+    animation: fadeOutRight 0.3s forwards;
+}
+
+.fade-in-right {
+    animation: fadeInRight 0.3s forwards;
+}
+
+/* Keyframes for fading out to the left */
+@keyframes fadeOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}
+
+/* Keyframes for fading in from the left */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Keyframes for fading out to the right */
+@keyframes fadeOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+}
+
+/* Keyframes for fading in from the right */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    .container {
+      min-height: 100vh;
+      flex-direction: column;
+      border-radius: 0;
+    }
+    .container .left {
+      width: 100%;
+      height: 100%;
+      padding: 20px 0;
+    }
+    .container .right {
+      width: 100%;
+      height: 100%;
+      padding: 20px 0;
+    }
+    .calendar::before,
+    .calendar::after {
+      top: 100%;
+      left: 50%;
+      width: 97%;
+      height: 12px;
+      border-radius: 0 0 5px 5px;
+      transform: translateX(-50%);
+    }
+    .calendar::before {
+      width: 94%;
+      top: calc(100% + 12px);
+    }
+    .events {
+      padding-bottom: 340px;
+    }
+    .add-event-wrapper {
+      bottom: 100px;
+    }
+  }
+  @media screen and (max-width: 500px) {
+    .calendar .month {
+      height: 75px;
+    }
+    .calendar .weekdays {
+      height: 50px;
+    }
+    .calendar .days .day {
+      height: 40px;
+      font-size: 0.8rem;
+    }
+    .calendar .days .day.active,
+    .calendar .days .day.today {
+      font-size: 1rem;
+    }
+    .right .today-date {
+      padding: 20px;
+    }
+  }
